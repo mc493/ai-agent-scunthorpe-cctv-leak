@@ -3,7 +3,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Views](https://hits.dwyl.com/mc493/ai-agent-scunthorpe-cctv-leak.svg?style=flat-square&label=views)](traffic/SUMMARY.md)
+[![Views](https://hits.sh/github.com/mc493/ai-agent-scunthorpe-cctv-leak.svg?style=flat-square&label=views&extraCount=2)](traffic/SUMMARY.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak/pulls)
 
 ---
@@ -436,7 +436,7 @@ To prevent automated moderation filters from false-flagging this defensive AppSe
 ## 📊 Telemetry & Continuous Observability
 
 This repository incorporates an autonomous continuous traffic archival engine that captures daily views, clones, and web beacon hits to defeat GitHub's rolling 14-day data retention cliff:
-* **Live Views Badge:** Top of this README (`hits.dwyl.com`)
+* **Live Views Badge:** Top of this README (`hits.sh`)
 * **Historical Scorecard:** [`traffic/SUMMARY.md`](traffic/SUMMARY.md)
 * **Time-Series Data:** [`traffic/traffic_history.json`](traffic/traffic_history.json)
 * **Automated Runner:** `.github/workflows/traffic-archive.yml`

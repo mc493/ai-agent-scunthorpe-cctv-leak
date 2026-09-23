@@ -1,7 +1,7 @@
 # 📊 360° Repository Traffic & Telemetry History
 
 > **Repository:** [`mc493/ai-agent-scunthorpe-cctv-leak`](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak)  
-> **Last Updated:** `2026-09-23T10:50:29.460659+00:00` (UTC)  
+> **Last Updated:** `2026-09-23T13:55:25.385341+00:00` (UTC)  
 > **Archival Engine:** Automated Continuous Time-Series Ledger (Defeats GitHub 14-Day Cliff)
 
 ---
@@ -10,7 +10,7 @@
 
 | Metric | Total / Status | Description |
 | :--- | :---: | :--- |
-| **Live Badge Hits** | `2` | Public visual hits via `hits.dwyl.com` web beacon |
+| **Live Badge Hits** | `9` | Public visual hits via `hits.sh` web beacon |
 | **Total Page Views** | `0` | Cumulative page views tracked via GitHub API |
 | **Total Git Clones** | `0` | Cumulative repository clones via CLI |
 | **Stargazers** | `0` | Total GitHub stars |
