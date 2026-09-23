@@ -20,18 +20,19 @@ AUTHORIZED_OPERATORS = {
     "admin@internal.mesh"
 }
 
-# 2. Strict Regex Word Boundary Intent Patterns
-# Single letters like 'log' are replaced with structured phrases or \b boundary checks
+# 2. Strict SOTA Action-Verb + Target-Noun Intent Architecture
+# Prevents Scunthorpe Part 2: Bare nouns ('cctv', 'visitors', 'doorstep') and literary words ('review') are prohibited.
+# Requires an unambiguous operational action verb (check, show, view, get) or direct interrogative (who came).
 VISITOR_PATTERNS = [
-    r"\bvisitors?\b",
-    r"\bvisited\b",
-    r"\bdoorstep\b",
-    r"\bfront porch\b",
-    r"\bwho came\b",
-    r"\bcctv\b",
-    r"\bperimeter\b",
-    r"\bsecurity (?:log|audit|check)\b",
-    r"\bvisitor (?:log|audit|history)\b"
+    # Direct interrogative inquiries
+    r"\bwho (?:came|was (?:at|there)|visited)\b",
+    r"\bany(?:one|body) (?:at the door|outside|visit(?:ed)?)\b",
+    # Operational Action-Verb + target-noun combinations
+    r"\b(?:check|show|display|view|query|get|fetch|see)\b.{1,30}\b(?:cctv|cameras?|porch|front door|doorstep|visitors?|perimeter)\b",
+    r"\b(?:cctv|cameras?|porch|front door|doorstep|perimeter)\b.{1,30}\b(?:status|check|feed|feeds|footage|stream)\b",
+    # Explicit compound technical phrases (audit, logs, telemetry)
+    r"\b(?:visitor|perimeter|camera|security)\s+(?:logs?|audit|history|detections?|activity|telemetry)\b",
+    r"\bfront\s+(?:door|porch)\s+(?:camera|cctv|status|activity|visitors?)\b"
 ]
 
 
@@ -117,6 +118,14 @@ def main():
         body="What is your visitor log for today?"
     )
     print(f"   Output:\n{res3}\n")
+
+    # Test Case 4: Discussion about CCTV Repo (Prevents Scunthorpe Part 2 / Bare Noun Collision!)
+    res4 = parse_and_route_hardened(
+        sender="operator@example.com",
+        subject="KIMI assessment of CCTV leak repo",
+        body="What do you think of this external review regarding the CCTV postmortem?"
+    )
+    print(f"   Output:\n{res4}\n")
 
 
 if __name__ == "__main__":
