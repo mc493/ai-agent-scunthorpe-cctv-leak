@@ -96,17 +96,17 @@ def classify_email_modality(subject: str, body: str) -> EmailModality:
 # --- Mock Infrastructure Substrate ---
 def mock_query_camera_telemetry() -> str:
     return (
-        "[PERIMETER CAMERA TELEMETRY DISCLOSED]\n"
-        "• Front Porch (annke_cctv_5): 3 person detections (14:22, 14:35, 14:50)\n"
-        "• Driveway (annke_cctv_3): 1 vehicle approach (14:18)"
+        "[SIMULATION: MOCK_CAMERA_TELEMETRY (CONTROL_PLANE)]\n"
+        "• Entrance (synthetic_cam_01): 3 mock detections (14:22, 14:35, 14:50)\n"
+        "• Perimeter (synthetic_cam_02): 1 mock vehicle event (14:18)"
     )
 
 
 def mock_query_hardware_status() -> str:
     return (
-        "[HARDWARE TOPOLOGY DISCLOSED]\n"
-        "• Silicon Accelerators: Quadro P1000 CUDA active, Hailo-8 NPU active, Intel Arc A380 Vulkan active\n"
-        "• Cluster Services: 13/13 nominal"
+        "[SIMULATION: MOCK_HARDWARE_TOPOLOGY (CONTROL_PLANE)]\n"
+        "• Compute Accelerators: Mock GPU/NPU accelerator pool active\n"
+        "• Cluster Services: All nominal"
     )
 
 
@@ -209,7 +209,7 @@ def run_verification():
     )
     print(f"Result Plane: {res1['plane']} | Directive: {res1['directive']}")
     assert res1["plane"] == "CONTROL_PLANE"
-    assert "[PERIMETER CAMERA TELEMETRY DISCLOSED]" in res1["output"]
+    assert "[SIMULATION: MOCK_CAMERA_TELEMETRY (CONTROL_PLANE)]" in res1["output"]
     print("[PASS] Case 1: Direct operator command executed on Control Plane.")
 
     # Case 2: Forwarded Review containing "cctv" and "status" (The Scunthorpe Paradox Trap!)
@@ -231,8 +231,8 @@ def run_verification():
     print(f"Telemetry Muted: {res2.get('telemetry_muted')}")
     assert res2["plane"] == "INGESTION_PLANE"
     assert res2["directive"] == "COGNITIVE_EVALUATION"
-    assert "PERIMETER CAMERA TELEMETRY" not in res2["output"]
-    assert "HARDWARE TOPOLOGY" not in res2["output"]
+    assert "MOCK_CAMERA_TELEMETRY" not in res2["output"]
+    assert "MOCK_HARDWARE_TOPOLOGY" not in res2["output"]
     print("[PASS] Case 2: Forwarded review with 'cctv' and 'status' routed to Ingestion Plane — ZERO TELEMETRY LEAK!")
 
     # Case 3: External Technical Research Link (Ingestion Plane)

@@ -300,7 +300,7 @@ During live deployment of this system, the operator forwarded an architectural e
 
 > *"The silent-crash postmortem (Defect 4) is a nice catch: catch-all except + return [] + systemd 'active (running)' green status is a real and underappreciated failure mode in polling daemons."*
 
-Within 800 milliseconds, the agent parsed the email, detected the compound noun phrase `"green status"`, concluded that the operator was demanding a real-time cluster health summary, queried the physical hardware accelerators (Quadro P1000 GPU, Hailo-8L NPU, Intel Arc GPU), and dispatched an unsolicited 13-service infrastructure audit to the operator!
+Within 800 milliseconds, the agent parsed the email, detected the compound noun phrase `"green status"`, concluded that the operator was demanding a real-time cluster health summary, queried the physical hardware accelerators (edge GPUs, NPUs, and inference engines), and dispatched an unsolicited multi-service infrastructure audit to the operator!
 
 ### The Architectural Root Cause: The In-Band Signaling Fallacy
 
