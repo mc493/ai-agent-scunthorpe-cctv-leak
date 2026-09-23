@@ -3,6 +3,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Engineered With: Antigravity CLI](https://img.shields.io/badge/Engineered%20With-Antigravity%20CLI%20(agy)-black?style=flat-square)](https://github.com/)
 [![Views](https://hits.sh/github.com/mc493/ai-agent-scunthorpe-cctv-leak.svg?style=flat-square&label=views&extraCount=12)](traffic/SUMMARY.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak/pulls)
 
@@ -440,6 +441,13 @@ This repository incorporates an autonomous continuous traffic archival engine th
 * **Historical Scorecard:** [`traffic/SUMMARY.md`](traffic/SUMMARY.md)
 * **Time-Series Data:** [`traffic/traffic_history.json`](traffic/traffic_history.json)
 * **Automated Runner:** `.github/workflows/traffic-archive.yml`
+
+---
+
+## Engineering & Maintainers
+
+* **Lead Author & Systems Architect:** [@mc493](https://github.com/mc493) — AppSec Postmortem, Software-Defined Ingress Architecture & Zero-Trust Gate Design.
+* **Autonomous Engineering Agent:** **Antigravity CLI (`agy`)** — Agentic Pair-Programming, Test Harness Synthesis, and Modality Disambiguation Verification.
 
 ---
 
