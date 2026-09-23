@@ -31,7 +31,7 @@ python3 examples/03_rfc5322_threading.py
 
 ## 🔍 The Mystery: A GitHub Link Triggers a Perimeter Security Audit
 
-Yesterday evening, I emailed a GitHub link to my self-hosted **System AI Agent**. The link pointed to `claude-deep-research-skill`, an open-source deep research framework developed by 199-biotechnologies (a UK longevity biotech lab). The email was simple:
+Yesterday evening, I emailed a GitHub link to my self-hosted **System AI Agent**. The email was simple:
 
 > **Subject:** `199-biotechnologies/claude-deep-research-skill`  
 > **Body:** `Please assess this framework for usability: https://share.google/...`
