@@ -43,7 +43,7 @@ def is_authorized_operator(sender: str) -> bool:
 
 def mock_query_camera_database():
     return (
-        "✅ [AUTHORIZED CCTV AUDIT EXECUTED]\n"
+        "[AUTHORIZED CCTV AUDIT EXECUTED]\n"
         "Perimeter Detections:\n"
         "  - [14:22:10] Person detected (Porch CCTV)\n"
         "  - [16:05:44] Person detected (Driveway CCTV)"
@@ -51,13 +51,13 @@ def mock_query_camera_database():
 
 
 def mock_execute_web_research(url: str):
-    return f"🧠 [RESEARCH ENGINE EXECUTED] Synthesizing brief for: {url}"
+    return f"[RESEARCH ENGINE EXECUTED] Synthesizing brief for: {url}"
 
 
 def parse_and_route_hardened(sender: str, subject: str, body: str):
     """Hardened router enforcing Identity-First gating and Regex Token Boundaries."""
     full_text = f"{subject} {body}"
-    print(f"\n📨 Inbound Email:")
+    print(f"\nInbound Email:")
     print(f"   Sender:  <{sender}>")
     print(f"   Subject: {subject}")
     print(f"   Body:    {body}")
@@ -66,7 +66,7 @@ def parse_and_route_hardened(sender: str, subject: str, body: str):
     url_match = re.search(r"https?://[^\s<>\"']+", full_text)
     if url_match or any(w in full_text.lower() for w in ["research", "assess", "usability"]):
         if url_match:
-            print(f"   🎯 Accurately classified as RESEARCH REQUEST (URL: {url_match.group(0)})")
+            print(f"   [OK] Accurately classified as RESEARCH REQUEST (URL: {url_match.group(0)})")
             return mock_execute_web_research(url_match.group(0))
 
     # Check for Physical Telemetry / Security Queries
@@ -77,22 +77,22 @@ def parse_and_route_hardened(sender: str, subject: str, body: str):
             break
 
     if matched_pattern:
-        print(f"   🔍 Matched security intent: pattern '{matched_pattern}'")
+        print(f"   Matched security intent: pattern '{matched_pattern}'")
         
         # MANDATORY ZERO-TRUST AUTHENTICATION GATE
         if not is_authorized_operator(sender):
-            print(f"   🚫 REJECTED! Sender <{sender}> is NOT in AUTHORIZED_OPERATORS.")
+            print(f"   [ACCESS DENIED] REJECTED! Sender <{sender}> is NOT in AUTHORIZED_OPERATORS.")
             return "403 FORBIDDEN: Unauthorized query for physical presence telemetry."
 
-        print(f"   🛡️ Sender authenticated as Authorized Operator.")
+        print(f"   [OK] Sender authenticated as Authorized Operator.")
         return mock_query_camera_database()
 
-    return "ℹ️ [DEFAULT] General assistant query."
+    return "[DEFAULT] General assistant query."
 
 
 def main():
     print("=" * 70)
-    print("🛡️ SIMULATING HARDENED INTENT PARSER & ZERO-TRUST GATE")
+    print("SIMULATING HARDENED INTENT PARSER & ZERO-TRUST GATE")
     print("=" * 70)
 
     # Test Case 1: Legitimate Authorized Visitor Query

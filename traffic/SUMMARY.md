@@ -1,4 +1,4 @@
-# 📊 360° Repository Traffic & Telemetry History
+# 360° Repository Traffic & Telemetry History
 
 > **Repository:** [`mc493/ai-agent-scunthorpe-cctv-leak`](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak)  
 > **Last Updated:** `2026-09-23T14:03:28.025155+00:00` (UTC)  
@@ -6,7 +6,7 @@
 
 ---
 
-## 📈 Telemetry Scorecard
+## Telemetry Scorecard
 
 | Metric | Total / Status | Description |
 | :--- | :---: | :--- |
@@ -19,7 +19,7 @@
 
 ---
 
-## 📅 Daily Traffic Log
+## Daily Traffic Log
 
 | Date | Views (Total) | Views (Unique) | Clones (Total) | Clones (Unique) |
 | :---: | :---: | :---: | :---: | :---: |
@@ -27,7 +27,7 @@
 
 ---
 
-## 🌐 Top Referring Domains
+## Top Referring Domains
 
 | Referrer | Views (Total) | Visitors (Unique) |
 | :--- | :---: | :---: |

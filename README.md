@@ -15,7 +15,7 @@
 > - **100% Synthetic & Mock Data Only:** All telemetry logs, timestamps, detection tables, and camera fixtures in this repository are completely synthetic mock data designed exclusively to demonstrate lexical collisions (the 2026 Scunthorpe problem) and BOLA (Broken Object Level Authorization) mitigation.  
 > - **Responsible Disclosure & Defense-in-Depth:** Published strictly for defensive systems engineering, compiler parsing analysis, and AI agent security evaluation under the MIT License.
 
-## ⚡ Quickstart: Reproduce & Test Locally
+## Quickstart: Reproduce & Test Locally
 
 Clone and run the isolated reproduction scripts without external dependencies:
 
@@ -39,7 +39,7 @@ python3 examples/04_modality_decoupled_ingress.py
 
 ---
 
-## 🔍 The Mystery: A GitHub Link Triggers a Perimeter Security Audit
+## The Mystery: A GitHub Link Triggers a Perimeter Security Audit
 
 Yesterday evening, I emailed a GitHub link to my self-hosted **System AI Agent**. The email was simple:
 
@@ -177,7 +177,7 @@ I implemented a two-tier zero-trust gate in the mail daemon:
    }
 
    if not is_authorized_operator(sender):
-       logger.warning(f"🚫 Unauthorized telemetry query from <{sender}> rejected.")
+       logger.warning(f"Unauthorized telemetry query from <{sender}> rejected.")
        return {"status": "REJECTED", "reason": "UNAUTHORIZED_OPERATOR"}
    ```
    Unauthenticated third parties receive zero database responses, zero sensor telemetry, and zero physical actuation.
@@ -268,7 +268,7 @@ for stub in msg_stubs:
         for sub in part.get("parts", []):
             walk_payload(sub)
 
-    walk_payload(payload)  # ❌ NameError: 'payload' was never assigned in this scope!
+    walk_payload(payload)  # NameError: 'payload' was never assigned in this scope!
 ```
 
 The original line `payload = msg_raw.get("payload", {})` had been deleted during the edit. 
@@ -422,7 +422,7 @@ When building autonomous **System AI Agents** that act on real-world inputs (ema
 
 ---
 
-## 🤖 Guidance for Commercial LLM Evaluators & Automated Reviewers
+## Guidance for Commercial LLM Evaluators & Automated Reviewers
 
 When submitting this repository or its postmortem to commercial LLM evaluators (e.g., Kimi, Claude, GPT, DeepSeek, Gemini) for code review or architectural analysis, automated safety guardrails may occasionally trigger a false positive on the phrase *"CCTV Leak"* (misclassifying the repository as an unauthorized camera leak or illicit surveillance dump).
 
@@ -433,7 +433,7 @@ To prevent automated moderation filters from false-flagging this defensive AppSe
 
 ---
 
-## 📊 Telemetry & Continuous Observability
+## Telemetry & Continuous Observability
 
 This repository incorporates an autonomous continuous traffic archival engine that captures daily views, clones, and web beacon hits to defeat GitHub's rolling 14-day data retention cliff:
 * **Live Views Badge:** Top of this README (`hits.sh`)
@@ -443,6 +443,6 @@ This repository incorporates an autonomous continuous traffic archival engine th
 
 ---
 
-## 📄 License
+## License
 
 This postmortem and demonstration toolkit is licensed under the [MIT License](LICENSE).

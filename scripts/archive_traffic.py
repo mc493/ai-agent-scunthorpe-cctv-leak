@@ -35,14 +35,14 @@ def fetch_json(url: str, token: str = "") -> dict:
             return json.loads(resp.read().decode("utf-8"))
     except urllib.error.HTTPError as e:
         if e.code == 403:
-            print(f"ℹ️ HTTP 403 on {url} (permission restricted or rate limited)")
+            print(f"Notice: HTTP 403 on {url} (permission restricted or rate limited)")
         elif e.code == 404:
-            print(f"ℹ️ HTTP 404 on {url}")
+            print(f"Notice: HTTP 404 on {url}")
         else:
-            print(f"⚠️ HTTP {e.code} on {url}: {e.reason}")
+            print(f"Warning: HTTP {e.code} on {url}: {e.reason}")
         return {}
     except Exception as e:
-        print(f"⚠️ Request failed on {url}: {e}")
+        print(f"Warning: Request failed on {url}: {e}")
         return {}
 
 
@@ -64,7 +64,7 @@ def fetch_badge_hits(repo: str, existing_hits: int = 0) -> int:
             print(f"  -> Badge Hits (hits.sh API): {count:,}")
             return count
     except Exception as e:
-        print(f"ℹ️ hits.sh API query notice: {e}")
+        print(f"Notice: hits.sh API query notice: {e}")
 
     # 2. Secondary: hits.sh SVG parser
     try:
@@ -80,7 +80,7 @@ def fetch_badge_hits(repo: str, existing_hits: int = 0) -> int:
                 print(f"  -> Badge Hits (hits.sh SVG): {count:,}")
                 return count
     except Exception as e:
-        print(f"ℹ️ hits.sh SVG query notice: {e}")
+        print(f"Notice: hits.sh SVG query notice: {e}")
 
     # 3. Fallback: hits.dwyl.com legacy endpoint
     try:
@@ -91,14 +91,14 @@ def fetch_badge_hits(repo: str, existing_hits: int = 0) -> int:
             print(f"  -> Badge Hits (hits.dwyl.com): {count:,}")
             return count
     except Exception as e:
-        print(f"ℹ️ hits.dwyl.com fallback notice: {e}")
+        print(f"Notice: hits.dwyl.com fallback notice: {e}")
 
     # 4. Preserve existing count
     return existing_hits
 
 
 def main():
-    print(f"📊 Starting 360° Traffic Archiver for {REPO}...")
+    print(f"Starting 360° Traffic Archiver for {REPO}...")
     os.makedirs(DATA_DIR, exist_ok=True)
     
     # 1. Load existing history
@@ -121,9 +121,9 @@ def main():
             with open(HISTORY_FILE, "r", encoding="utf-8") as f:
                 loaded = json.load(f)
                 history.update(loaded)
-                print(f"✅ Loaded existing history ({len(history.get('daily_views', {}))} days recorded)")
+                print(f"[OK] Loaded existing history ({len(history.get('daily_views', {}))} days recorded)")
         except Exception as e:
-            print(f"⚠️ Could not parse existing history file: {e}")
+            print(f"Warning: Could not parse existing history file: {e}")
 
     # 2. Fetch Badge Hits (Multi-provider resilient engine: hits.sh + dwyl fallback)
     history["badge_hits"] = fetch_badge_hits(REPO, history.get("badge_hits", 0))
@@ -181,26 +181,26 @@ def main():
                 }
             print(f"  -> Tracked {len(referrers_data)} referring domains")
     else:
-        print("ℹ️ GITHUB_TOKEN not provided or lacks traffic scopes; skipping native traffic/views API.")
+        print("Notice: GITHUB_TOKEN not provided or lacks traffic scopes; skipping native traffic/views API.")
 
     # 5. Save History Ledger
     history["last_updated"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
     with open(HISTORY_FILE, "w", encoding="utf-8") as f:
         json.dump(history, f, indent=2, sort_keys=True)
-    print(f"💾 Committed JSON time-series to {HISTORY_FILE}")
+    print(f"Committed JSON time-series to {HISTORY_FILE}")
 
     # 6. Render Human-Readable Markdown Scorecard
     total_views = sum(v.get("count", 0) for v in history["daily_views"].values())
     total_clones = sum(c.get("count", 0) for c in history["daily_clones"].values())
     
     with open(SUMMARY_FILE, "w", encoding="utf-8") as f:
-        f.write("# 📊 360° Repository Traffic & Telemetry History\n\n")
+        f.write("# 360° Repository Traffic & Telemetry History\n\n")
         f.write(f"> **Repository:** [`{REPO}`](https://github.com/{REPO})  \n")
         f.write(f"> **Last Updated:** `{history['last_updated']}` (UTC)  \n")
         f.write(f"> **Archival Engine:** Automated Continuous Time-Series Ledger (Defeats GitHub 14-Day Cliff)\n\n")
         f.write("---\n\n")
         
-        f.write("## 📈 Telemetry Scorecard\n\n")
+        f.write("## Telemetry Scorecard\n\n")
         f.write("| Metric | Total / Status | Description |\n")
         f.write("| :--- | :---: | :--- |\n")
         f.write(f"| **Live Badge Hits** | `{history['badge_hits']:,}` | Public visual hits via `hits.sh` web beacon |\n")
@@ -211,7 +211,7 @@ def main():
         f.write(f"| **Watchers** | `{history['watchers']:,}` | Total subscribers |\n\n")
         f.write("---\n\n")
         
-        f.write("## 📅 Daily Traffic Log\n\n")
+        f.write("## Daily Traffic Log\n\n")
         f.write("| Date | Views (Total) | Views (Unique) | Clones (Total) | Clones (Unique) |\n")
         f.write("| :---: | :---: | :---: | :---: | :---: |\n")
         
@@ -225,7 +225,7 @@ def main():
             f.write(f"| {datetime.date.today().isoformat()} | 0 | 0 | 0 | 0 |\n")
             
         f.write("\n---\n\n")
-        f.write("## 🌐 Top Referring Domains\n\n")
+        f.write("## Top Referring Domains\n\n")
         f.write("| Referrer | Views (Total) | Visitors (Unique) |\n")
         f.write("| :--- | :---: | :---: |\n")
         if history["referrers"]:
@@ -238,8 +238,8 @@ def main():
         f.write("\n---\n\n")
         f.write("*Maintained by Sovereign Cluster Autonomous Telemetry & SRE Engine.*\n")
 
-    print(f"📄 Generated Markdown summary at {SUMMARY_FILE}")
-    print("🏆 360° Traffic Archival Complete.")
+    print(f"Generated Markdown summary at {SUMMARY_FILE}")
+    print("360° Traffic Archival Complete.")
 
 
 if __name__ == "__main__":

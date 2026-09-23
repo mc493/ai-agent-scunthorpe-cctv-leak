@@ -96,7 +96,7 @@ def classify_email_modality(subject: str, body: str) -> EmailModality:
 # --- Mock Infrastructure Substrate ---
 def mock_query_camera_telemetry() -> str:
     return (
-        "📹 [PERIMETER CAMERA TELEMETRY DISCLOSED]\n"
+        "[PERIMETER CAMERA TELEMETRY DISCLOSED]\n"
         "• Front Porch (annke_cctv_5): 3 person detections (14:22, 14:35, 14:50)\n"
         "• Driveway (annke_cctv_3): 1 vehicle approach (14:18)"
     )
@@ -104,7 +104,7 @@ def mock_query_camera_telemetry() -> str:
 
 def mock_query_hardware_status() -> str:
     return (
-        "📊 [HARDWARE TOPOLOGY DISCLOSED]\n"
+        "[HARDWARE TOPOLOGY DISCLOSED]\n"
         "• Silicon Accelerators: Quadro P1000 CUDA active, Hailo-8 NPU active, Intel Arc A380 Vulkan active\n"
         "• Cluster Services: 13/13 nominal"
     )
@@ -112,7 +112,7 @@ def mock_query_hardware_status() -> str:
 
 def mock_synthesize_cognitive_critique(text: str, subject: str) -> str:
     return (
-        f"🧠 [INGESTION PLANE COGNITIVE SYNTHESIS]\n"
+        f"[INGESTION PLANE COGNITIVE SYNTHESIS]\n"
         f"• Subject: '{subject}'\n"
         f"• Analysis: External critique reviewed. Evaluates security trade-offs, BOLA boundaries, and threat models.\n"
         f"• Stance: Ingested into Second Brain vector memory for architectural reference.\n"
@@ -175,15 +175,15 @@ class SoftwareDefinedAgentGateway:
             "status": "PROCESSED",
             "plane": "INGESTION_PLANE",
             "directive": "RESEARCH_INGESTION",
-            "output": f"📚 Ingested technical research dossier for: {target_url} (Telemetry Muted)",
+            "output": f"Ingested technical research dossier for: {target_url} (Telemetry Muted)",
             "telemetry_muted": True
         }
 
     def process_incoming_email(self, sender: str, subject: str, body: str) -> Dict[str, Any]:
         """Boundary Router: Routes strictly by structural modality."""
         modality = classify_email_modality(subject, body)
-        print(f"\n📨 [INBOUND] From: <{sender}> | Subj: '{subject}'")
-        print(f"🧭 [CLASSIFIER] Detected Modality: {modality.value}")
+        print(f"\n[INBOUND] From: <{sender}> | Subj: '{subject}'")
+        print(f"[CLASSIFIER] Detected Modality: {modality.value}")
 
         if modality == EmailModality.COMMAND:
             return self.handle_control_plane(sender, subject, body)
@@ -209,8 +209,8 @@ def run_verification():
     )
     print(f"Result Plane: {res1['plane']} | Directive: {res1['directive']}")
     assert res1["plane"] == "CONTROL_PLANE"
-    assert "📹 [PERIMETER CAMERA TELEMETRY DISCLOSED]" in res1["output"]
-    print("✅ Case 1 Passed: Direct operator command executed on Control Plane.")
+    assert "[PERIMETER CAMERA TELEMETRY DISCLOSED]" in res1["output"]
+    print("[PASS] Case 1: Direct operator command executed on Control Plane.")
 
     # Case 2: Forwarded Review containing "cctv" and "status" (The Scunthorpe Paradox Trap!)
     # In a naive parser, this would execute BOTH the camera query and the status report!
@@ -233,7 +233,7 @@ def run_verification():
     assert res2["directive"] == "COGNITIVE_EVALUATION"
     assert "PERIMETER CAMERA TELEMETRY" not in res2["output"]
     assert "HARDWARE TOPOLOGY" not in res2["output"]
-    print("✅ Case 2 Passed: Forwarded review with 'cctv' and 'status' routed to Ingestion Plane — ZERO TELEMETRY LEAK!")
+    print("[PASS] Case 2: Forwarded review with 'cctv' and 'status' routed to Ingestion Plane — ZERO TELEMETRY LEAK!")
 
     # Case 3: External Technical Research Link (Ingestion Plane)
     res3 = gateway.process_incoming_email(
@@ -244,7 +244,7 @@ def run_verification():
     print(f"Result Plane: {res3['plane']} | Directive: {res3['directive']}")
     assert res3["plane"] == "INGESTION_PLANE"
     assert res3["directive"] == "RESEARCH_INGESTION"
-    print("✅ Case 3 Passed: Technical URL ingested cleanly on Ingestion Plane.")
+    print("[PASS] Case 3: Technical URL ingested cleanly on Ingestion Plane.")
 
     # Case 4: Unauthorized Attacker Command (Identity Gate)
     res4 = gateway.process_incoming_email(
@@ -254,10 +254,10 @@ def run_verification():
     )
     print(f"Result Status: {res4['status']} | Reason: {res4.get('reason')}")
     assert res4["status"] == "REJECTED"
-    print("✅ Case 4 Passed: Zero-trust identity check blocked unauthorized sender.")
+    print("[PASS] Case 4: Zero-trust identity check blocked unauthorized sender.")
 
     print("\n" + "=" * 70)
-    print("🎉 ALL SOTA MODALITY DISAMBIGUATION TESTS PASSED (100% COMPLIANCE)")
+    print("ALL MODALITY DISAMBIGUATION TESTS PASSED (100% COMPLIANCE)")
     print("=" * 70)
 
 

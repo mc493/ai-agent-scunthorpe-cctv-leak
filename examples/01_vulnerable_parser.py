@@ -22,7 +22,7 @@ VISITOR_KEYWORDS = [
 def mock_query_camera_database():
     """Simulates querying PostgreSQL for perimeter detections."""
     return (
-        "🚨 [CCTV AUDIT EXECUTED]\n"
+        "[CCTV AUDIT EXECUTED]\n"
         "Perimeter Detections:\n"
         "  - [14:22:10] Person detected (Porch CCTV)\n"
         "  - [16:05:44] Person detected (Driveway CCTV)"
@@ -31,14 +31,14 @@ def mock_query_camera_database():
 
 def mock_execute_web_research(url):
     """Simulates triggering LLM web research and synthesis."""
-    return f"🧠 [RESEARCH ENGINE EXECUTED] Synthesizing brief for: {url}"
+    return f"[RESEARCH ENGINE EXECUTED] Synthesizing brief for: {url}"
 
 
 def parse_and_route_vulnerable(subject: str, body: str):
     """Vulnerable routing logic using naive substring matching."""
     full_text = f"{subject} {body}".lower()
     
-    print(f"\n📨 Inbound Email:")
+    print(f"\nInbound Email:")
     print(f"   Subject: {subject}")
     print(f"   Body:    {body}")
 
@@ -50,17 +50,17 @@ def parse_and_route_vulnerable(subject: str, body: str):
             break
 
     if matched_keyword:
-        print(f"   ⚠️ MISCLASSIFIED! Substring match found: '{matched_keyword}' in text!")
+        print(f"   [!] MISCLASSIFIED! Substring match found: '{matched_keyword}' in text!")
         return mock_query_camera_database()
     elif "http://" in full_text or "https://" in full_text:
         return mock_execute_web_research(body.strip())
     else:
-        return "ℹ️ [DEFAULT] General assistant query."
+        return "[DEFAULT] General assistant query."
 
 
 def main():
     print("=" * 70)
-    print("🧪 SIMULATING VULNERABLE SUBSTRING INTENT PARSER")
+    print("SIMULATING VULNERABLE SUBSTRING INTENT PARSER")
     print("=" * 70)
 
     # Test Case 1: Legitimate Visitor Request

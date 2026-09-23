@@ -30,7 +30,7 @@ def build_defective_reply(sender: str, original_subject: str, summary: str):
     # DEFECT: Missing threadId in outer dictionary
     api_payload = {
         "raw": raw_bytes
-        # ❌ Missing: "threadId": thread_id
+        # Defect: Missing: "threadId": thread_id
     }
     return msg, api_payload
 
@@ -70,7 +70,7 @@ def build_hardened_reply(sender: str, original_subject: str, message_id: str, th
 
 def main():
     print("=" * 70)
-    print("📧 SIMULATING DUAL-PROTOCOL EMAIL THREAD CONSTRUCTOR")
+    print("SIMULATING DUAL-PROTOCOL EMAIL THREAD CONSTRUCTOR")
     print("=" * 70)
 
     inbound_meta = {
@@ -80,7 +80,7 @@ def main():
         "thread_id": "18e4f8a92bc4412e"  # Bigtable Thread Key
     }
 
-    print(f"\n📩 Inbound Message Ingested:")
+    print(f"\nInbound Message Ingested:")
     print(f"   Subject:    {inbound_meta['subject']}")
     print(f"   Message-ID: {inbound_meta['message_id']}")
     print(f"   Thread-ID:  {inbound_meta['thread_id']}")
@@ -91,7 +91,7 @@ def main():
         original_subject=inbound_meta["subject"],
         summary="Executive Brief on Deep Research Skill..."
     )
-    print("\n❌ 1. DEFECTIVE OUTBOUND DISPATCH:")
+    print("\n[FAIL] 1. DEFECTIVE OUTBOUND DISPATCH:")
     print(f"   MIME Subject:      '{def_msg['Subject']}'")
     print(f"   MIME In-Reply-To:  {def_msg.get('In-Reply-To')}")
     print(f"   MIME References:   {def_msg.get('References')}")
@@ -106,7 +106,7 @@ def main():
         thread_id=inbound_meta["thread_id"],
         summary="Executive Brief on Deep Research Skill..."
     )
-    print("\n✅ 2. HARDENED OUTBOUND DISPATCH:")
+    print("\n[PASS] 2. HARDENED OUTBOUND DISPATCH:")
     print(f"   MIME Subject:      '{hard_msg['Subject']}'")
     print(f"   MIME In-Reply-To:  {hard_msg.get('In-Reply-To')}")
     print(f"   MIME References:   {hard_msg.get('References')}")

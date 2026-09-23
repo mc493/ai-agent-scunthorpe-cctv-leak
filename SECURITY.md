@@ -1,6 +1,6 @@
 # Security Policy
 
-## 🛡️ Defensive Cybersecurity Research & Synthetic Data Notice
+## Defensive Cybersecurity Research & Synthetic Data Notice
 
 This repository is an **educational application security (AppSec) postmortem, test harness, and compiler parsing evaluation suite** published under the MIT License.
 
@@ -9,18 +9,18 @@ This repository is an **educational application security (AppSec) postmortem, te
 
 ---
 
-## 📋 Supported Versions
+## Supported Versions
 
 We actively maintain the latest state on the `main` branch:
 
 | Version / Branch | Supported          |
 | :--------------- | :----------------- |
-| `main`           | :white_check_mark: |
-| Older releases   | :x:                |
+| `main`           | Yes |
+| Older releases   | No                |
 
 ---
 
-## 🚨 Reporting a Vulnerability
+## Reporting a Vulnerability
 
 If you discover a security vulnerability, prompt parsing bypass, or an unhandled edge case that could lead to unauthorized tool execution in system agent architectures:
 

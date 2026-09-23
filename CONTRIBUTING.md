@@ -4,7 +4,7 @@ Thank you for your interest in contributing to this educational AppSec research 
 
 ---
 
-## 🛡️ Core Contribution Principles
+## Core Contribution Principles
 
 This project is an **educational postmortem and compiler/parsing evaluation suite**. To preserve research integrity and data safety, all contributions must uphold these non-negotiable rules:
 
@@ -21,7 +21,7 @@ This project is an **educational postmortem and compiler/parsing evaluation suit
 
 ---
 
-## 🛠️ Development & Testing Workflow
+## Development & Testing Workflow
 
 1. **Fork and Clone:**
    ```bash
@@ -50,7 +50,7 @@ This project is an **educational postmortem and compiler/parsing evaluation suit
 
 ---
 
-## 📝 Commit Message Guidelines
+## Commit Message Guidelines
 
 We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
@@ -62,7 +62,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ---
 
-## 🚀 Submitting a Pull Request
+## Submitting a Pull Request
 
 1. Push your branch to GitHub.
 2. Open a Pull Request against the `main` branch.
