@@ -55,7 +55,7 @@ Recent Porch Activity Clusters:
   ...
 ```
 
-The System AI Agent had queried my internal PostgreSQL computer-vision database, aggregated 24 hours of real-time person detections from my outdoor cameras, and dispatched my household physical presence schedule via email.
+The System AI Agent had queried my internal PostgreSQL computer-vision database, aggregated 12 hours of real-time person detections from my outdoor cameras, and dispatched my household physical presence schedule via email.
 
 Even weirder:
 1. When the actual research summary arrived later, it didn't thread into the conversation—it arrived as a detached, split email in a brand-new thread.
