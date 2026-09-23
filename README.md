@@ -3,7 +3,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Views](https://hits.sh/github.com/mc493/ai-agent-scunthorpe-cctv-leak.svg?style=flat-square&label=views&extraCount=2)](traffic/SUMMARY.md)
+[![Views](https://hits.sh/github.com/mc493/ai-agent-scunthorpe-cctv-leak.svg?style=flat-square&label=views&extraCount=12)](traffic/SUMMARY.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak/pulls)
 
 ---
