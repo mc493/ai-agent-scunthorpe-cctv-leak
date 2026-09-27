@@ -13,13 +13,31 @@ import datetime
 import urllib.request
 import urllib.error
 
-REPO = os.getenv("GITHUB_REPOSITORY", "mc493/ai-agent-scunthorpe-cctv-leak")
+def detect_repository() -> str:
+    """Detects repository name from environment or git remote."""
+    env_repo = os.getenv("GITHUB_REPOSITORY")
+    if env_repo:
+        return env_repo.strip()
+    try:
+        import subprocess
+        res = subprocess.run(["git", "remote", "get-url", "origin"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=5)
+        if res.returncode == 0:
+            out = res.stdout.strip()
+            m = re.search(r"github\.com[:/]([^/\s]+/[^/\s.]+?)(?:\.git)?$", out)
+            if m:
+                return m.group(1)
+    except Exception:
+        pass
+    return "mc493/kshield"
+
+
+REPO = detect_repository()
 TOKEN = os.getenv("GITHUB_TOKEN", "").strip()
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "traffic")
 HISTORY_FILE = os.path.join(DATA_DIR, "traffic_history.json")
 SUMMARY_FILE = os.path.join(DATA_DIR, "SUMMARY.md")
 
-USER_AGENT = "SovereignCluster-TrafficArchiver/1.0"
+USER_AGENT = "RepositoryTelemetry-TrafficArchiver/1.0"
 
 
 def fetch_json(url: str, token: str = "") -> dict:
@@ -46,23 +64,31 @@ def fetch_json(url: str, token: str = "") -> dict:
         return {}
 
 
-def fetch_badge_hits(repo: str, existing_hits: int = 0) -> int:
+def fetch_badge_hits(repo: str, existing_hits: int = 0) -> tuple:
     """
     Fetches real-time badge hits with multi-provider resilience.
-    Primary: hits.sh read-only JSON API (does not artificially increment)
+    Primary: hits.sh read-only JSON API (extracts total count and daily time-series)
     Secondary: hits.sh SVG parser
     Fallback: hits.dwyl.com JSON endpoint
+    Returns: (total_hits: int, daily_hits: dict[str, int])
     """
-    offset = 12 if "scunthorpe" in repo else (885 if "linux-kernel" in repo else 0)
+    offset = 885 if "linux-kernel" in repo else (12 if "scunthorpe" in repo else 0)
+    daily_hits = {}
 
-    # 1. Primary: hits.sh JSON API
+    # 1. Primary: hits.sh JSON API (extracts total and daily time-series)
     try:
         url = f"https://hits.sh/api/urns/github.com/{repo}"
         data = fetch_json(url)
         if data and "total" in data:
             count = int(data["total"]) + offset
             print(f"  -> Badge Hits (hits.sh API): {count:,}")
-            return count
+            for item in data.get("items", []):
+                for entry in item.get("data", []):
+                    day_str = entry.get("day")
+                    val = int(entry.get("value", 0))
+                    if day_str and val > 0:
+                        daily_hits[day_str] = val
+            return count, daily_hits
     except Exception as e:
         print(f"Notice: hits.sh API query notice: {e}")
 
@@ -78,7 +104,7 @@ def fetch_badge_hits(repo: str, existing_hits: int = 0) -> int:
             if m:
                 count = int(m.group(1)) + offset
                 print(f"  -> Badge Hits (hits.sh SVG): {count:,}")
-                return count
+                return count, daily_hits
     except Exception as e:
         print(f"Notice: hits.sh SVG query notice: {e}")
 
@@ -89,12 +115,12 @@ def fetch_badge_hits(repo: str, existing_hits: int = 0) -> int:
         if badge_data and "message" in badge_data:
             count = int(badge_data["message"])
             print(f"  -> Badge Hits (hits.dwyl.com): {count:,}")
-            return count
+            return count, daily_hits
     except Exception as e:
         print(f"Notice: hits.dwyl.com fallback notice: {e}")
 
     # 4. Preserve existing count
-    return existing_hits
+    return existing_hits, daily_hits
 
 
 def main():
@@ -113,6 +139,7 @@ def main():
         "open_issues": 0,
         "daily_views": {},
         "daily_clones": {},
+        "daily_beacon_hits": {},
         "referrers": {}
     }
     
@@ -125,8 +152,18 @@ def main():
         except Exception as e:
             print(f"Warning: Could not parse existing history file: {e}")
 
-    # 2. Fetch Badge Hits (Multi-provider resilient engine: hits.sh + dwyl fallback)
-    history["badge_hits"] = fetch_badge_hits(REPO, history.get("badge_hits", 0))
+    history.setdefault("daily_beacon_hits", {})
+    history.setdefault("daily_views", {})
+    history.setdefault("daily_clones", {})
+    history.setdefault("referrers", {})
+
+    # 2. Fetch Badge Hits and Daily Web Beacon Telemetry
+    total_badge, daily_beacon = fetch_badge_hits(REPO, history.get("badge_hits", 0))
+    history["badge_hits"] = total_badge
+    if daily_beacon:
+        for d, cnt in daily_beacon.items():
+            history["daily_beacon_hits"][d] = cnt
+        print(f"  -> Synchronized {len(daily_beacon)} daily web beacon activity records")
 
     # 3. Fetch Public Repo Metadata
     repo_url = f"https://api.github.com/repos/{REPO}"
@@ -144,102 +181,142 @@ def main():
         views_url = f"https://api.github.com/repos/{REPO}/traffic/views"
         views_data = fetch_json(views_url, token=TOKEN)
         if views_data and "views" in views_data:
-            added_views = 0
             for item in views_data["views"]:
-                day = item["timestamp"][:10]  # YYYY-MM-DD
-                history["daily_views"][day] = {
+                date_key = item["timestamp"][:10]
+                history["daily_views"][date_key] = {
                     "count": item.get("count", 0),
                     "uniques": item.get("uniques", 0)
                 }
-                added_views += 1
-            print(f"  -> Merged {added_views} daily view records")
+            print(f"  -> Merged {len(views_data['views'])} daily view records from GitHub Traffic API")
 
         # Clones
         clones_url = f"https://api.github.com/repos/{REPO}/traffic/clones"
         clones_data = fetch_json(clones_url, token=TOKEN)
         if clones_data and "clones" in clones_data:
-            added_clones = 0
             for item in clones_data["clones"]:
-                day = item["timestamp"][:10]  # YYYY-MM-DD
-                history["daily_clones"][day] = {
+                date_key = item["timestamp"][:10]
+                history["daily_clones"][date_key] = {
                     "count": item.get("count", 0),
                     "uniques": item.get("uniques", 0)
                 }
-                added_clones += 1
-            print(f"  -> Merged {added_clones} daily clone records")
+            print(f"  -> Merged {len(clones_data['clones'])} daily clone records from GitHub Traffic API")
 
         # Referrers
-        referrers_url = f"https://api.github.com/repos/{REPO}/traffic/popular/referrers"
-        referrers_data = fetch_json(referrers_url, token=TOKEN)
-        if isinstance(referrers_data, list):
-            for ref in referrers_data:
-                referrer = ref.get("referrer", "Unknown")
-                history["referrers"][referrer] = {
+        ref_url = f"https://api.github.com/repos/{REPO}/traffic/popular/referrers"
+        ref_data = fetch_json(ref_url, token=TOKEN)
+        if isinstance(ref_data, list):
+            for ref in ref_data:
+                name = ref.get("referrer", "unknown")
+                history["referrers"][name] = {
                     "count": ref.get("count", 0),
-                    "uniques": ref.get("uniques", 0),
-                    "last_seen": datetime.datetime.now(datetime.timezone.utc).isoformat()
+                    "uniques": ref.get("uniques", 0)
                 }
-            print(f"  -> Tracked {len(referrers_data)} referring domains")
+            print(f"  -> Updated {len(ref_data)} referral sources")
     else:
-        print("Notice: GITHUB_TOKEN not provided or lacks traffic scopes; skipping native traffic/views API.")
+        print("Notice: No GITHUB_TOKEN provided; skipping private traffic/views endpoints.")
 
-    # 5. Save History Ledger
-    history["last_updated"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    # 5. Timestamp and Save JSON History
+    now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    history["last_updated"] = now_iso
+    
     with open(HISTORY_FILE, "w", encoding="utf-8") as f:
         json.dump(history, f, indent=2, sort_keys=True)
     print(f"Committed JSON time-series to {HISTORY_FILE}")
 
-    # 6. Render Human-Readable Markdown Scorecard
-    total_views = sum(v.get("count", 0) for v in history["daily_views"].values())
-    total_clones = sum(c.get("count", 0) for c in history["daily_clones"].values())
-    
-    with open(SUMMARY_FILE, "w", encoding="utf-8") as f:
-        f.write("# 360° Repository Traffic & Telemetry History\n\n")
-        f.write(f"> **Repository:** [`{REPO}`](https://github.com/{REPO})  \n")
-        f.write(f"> **Last Updated:** `{history['last_updated']}` (UTC)  \n")
-        f.write(f"> **Archival Engine:** Automated Continuous Time-Series Ledger (Defeats GitHub 14-Day Cliff)\n\n")
-        f.write("---\n\n")
-        
-        f.write("## Telemetry Scorecard\n\n")
-        f.write("| Metric | Total / Status | Description |\n")
-        f.write("| :--- | :---: | :--- |\n")
-        f.write(f"| **Live Badge Hits** | `{history['badge_hits']:,}` | Public visual hits via `hits.sh` web beacon |\n")
-        f.write(f"| **Total Page Views** | `{total_views:,}` | Cumulative page views tracked via GitHub API |\n")
-        f.write(f"| **Total Git Clones** | `{total_clones:,}` | Cumulative repository clones via CLI |\n")
-        f.write(f"| **Stargazers** | `{history['stars']:,}` | Total GitHub stars |\n")
-        f.write(f"| **Forks** | `{history['forks']:,}` | Total repository forks |\n")
-        f.write(f"| **Watchers** | `{history['watchers']:,}` | Total subscribers |\n\n")
-        f.write("---\n\n")
-        
-        f.write("## Daily Traffic Log\n\n")
-        f.write("| Date | Views (Total) | Views (Unique) | Clones (Total) | Clones (Unique) |\n")
-        f.write("| :---: | :---: | :---: | :---: | :---: |\n")
-        
-        all_dates = sorted(set(list(history["daily_views"].keys()) + list(history["daily_clones"].keys())), reverse=True)
-        if all_dates:
-            for day in all_dates:
-                v = history["daily_views"].get(day, {"count": 0, "uniques": 0})
-                c = history["daily_clones"].get(day, {"count": 0, "uniques": 0})
-                f.write(f"| {day} | {v.get('count', 0):,} | {v.get('uniques', 0):,} | {c.get('count', 0):,} | {c.get('uniques', 0):,} |\n")
-        else:
-            f.write(f"| {datetime.date.today().isoformat()} | 0 | 0 | 0 | 0 |\n")
-            
-        f.write("\n---\n\n")
-        f.write("## Top Referring Domains\n\n")
-        f.write("| Referrer | Views (Total) | Visitors (Unique) |\n")
-        f.write("| :--- | :---: | :---: |\n")
-        if history["referrers"]:
-            sorted_refs = sorted(history["referrers"].items(), key=lambda x: x[1].get("count", 0), reverse=True)
-            for ref_name, stats in sorted_refs:
-                f.write(f"| `{ref_name}` | {stats.get('count', 0):,} | {stats.get('uniques', 0):,} |\n")
-        else:
-            f.write("| *No external referrers recorded yet* | 0 | 0 |\n")
-            
-        f.write("\n---\n\n")
-        f.write("*Maintained by Autonomous Telemetry & Observability Engine.*\n")
-
+    # 6. Generate Markdown Summary
+    generate_markdown_summary(history, SUMMARY_FILE)
     print(f"Generated Markdown summary at {SUMMARY_FILE}")
     print("360° Traffic Archival Complete.")
+
+
+def generate_markdown_summary(history: dict, summary_path: str):
+    """Generates an executive traffic report in Markdown format."""
+    total_views = sum(d.get("count", 0) for d in history.get("daily_views", {}).values())
+    total_clones = sum(d.get("count", 0) for d in history.get("daily_clones", {}).values())
+    
+    lines = [
+        f"# 360° Repository Traffic & Telemetry History",
+        f"",
+        f"> **Repository:** [`{history['repository']}`](https://github.com/{history['repository']})  ",
+        f"> **Last Updated:** `{history['last_updated']}` (UTC)  ",
+        f"> **Archival Engine:** Automated Continuous Time-Series Ledger (Defeats GitHub 14-Day Cliff)",
+        f"",
+        f"---",
+        f"",
+        f"## Telemetry Scorecard",
+        f"",
+        f"| Metric | Total / Status | Description |",
+        f"| :--- | :---: | :--- |",
+        f"| **Live Badge Hits** | `{history.get('badge_hits', 0):,}` | Public visual hits via `hits.sh` web beacon |",
+        f"| **Total Page Views** | `{total_views:,}` | Cumulative page views tracked via GitHub API |",
+        f"| **Total Git Clones** | `{total_clones:,}` | Cumulative repository clones via CLI |",
+        f"| **Stargazers** | `{history.get('stars', 0):,}` | Total GitHub stars |",
+        f"| **Forks** | `{history.get('forks', 0):,}` | Total repository forks |",
+        f"| **Watchers** | `{history.get('watchers', 0):,}` | Total subscribers |",
+        f"",
+        f"---",
+        f"",
+        f"## Daily Traffic & Web Beacon Activity",
+        f"",
+        f"| Date | Web Beacon Hits | GitHub Views (Total) | GitHub Views (Unique) | Git Clones |",
+        f"| :---: | :---: | :---: | :---: | :---: |"
+    ]
+    
+    # Merge all recorded dates across beacon, views, and clones
+    all_dates = sorted(
+        set(
+            list(history.get("daily_beacon_hits", {}).keys()) +
+            list(history.get("daily_views", {}).keys()) +
+            list(history.get("daily_clones", {}).keys())
+        ),
+        reverse=True
+    )
+    
+    if not all_dates:
+        today = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+        lines.append(f"| {today} | 0 | 0 | 0 | 0 |")
+    else:
+        for d in all_dates:
+            b_cnt = history.get("daily_beacon_hits", {}).get(d)
+            b_str = f"{b_cnt:,}" if b_cnt is not None else "-"
+            v_data = history.get("daily_views", {}).get(d)
+            v_cnt = f"{v_data['count']:,}" if v_data and "count" in v_data else "-"
+            v_unq = f"{v_data['uniques']:,}" if v_data and "uniques" in v_data else "-"
+            c_data = history.get("daily_clones", {}).get(d)
+            c_cnt = f"{c_data['count']:,}" if c_data and "count" in c_data else "-"
+            lines.append(f"| `{d}` | {b_str} | {v_cnt} | {v_unq} | {c_cnt} |")
+            
+    lines.extend([
+        f"",
+        f"---",
+        f"",
+        f"## Top Referring Domains",
+        f"",
+        f"| Referrer | Views (Total) | Visitors (Unique) |",
+        f"| :--- | :---: | :---: |"
+    ])
+    
+    referrers = history.get("referrers", {})
+    if not referrers:
+        lines.append(f"| *No external referrers recorded yet (requires TRAFFIC_TOKEN)* | 0 | 0 |")
+    else:
+        for ref_name, ref_data in sorted(referrers.items(), key=lambda x: x[1].get("count", 0), reverse=True):
+            lines.append(f"| **{ref_name}** | {ref_data.get('count', 0):,} | {ref_data.get('uniques', 0):,} |")
+            
+    lines.extend([
+        f"",
+        f"---",
+        f"",
+        f"> [!NOTE]",
+        f"> **Telemetry Ingestion Sources:**  ",
+        f"> • **Web Beacon Hits (`hits.sh`):** Real-time visitor requests recorded directly when the repository README badge is rendered. Active and updated continuously.  ",
+        f"> • **GitHub Traffic API (`/traffic/views`, `/traffic/clones`):** Internal GitHub web traffic and CLI clone counts. Ingestion via GitHub Actions requires repository secret `TRAFFIC_TOKEN` (PAT with `repo` scope) to bypass default CI token restrictions.",
+        f"",
+        f"*Maintained by Autonomous Telemetry & Observability Engine.*"
+    ])
+    
+    with open(summary_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
 
 
 if __name__ == "__main__":

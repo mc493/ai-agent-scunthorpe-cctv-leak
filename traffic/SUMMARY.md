@@ -1,7 +1,7 @@
 # 360° Repository Traffic & Telemetry History
 
 > **Repository:** [`mc493/ai-agent-scunthorpe-cctv-leak`](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak)  
-> **Last Updated:** `2026-09-27T03:49:25.402814+00:00` (UTC)  
+> **Last Updated:** `2026-09-27T19:05:55.342096+00:00` (UTC)  
 > **Archival Engine:** Automated Continuous Time-Series Ledger (Defeats GitHub 14-Day Cliff)
 
 ---
@@ -10,7 +10,7 @@
 
 | Metric | Total / Status | Description |
 | :--- | :---: | :--- |
-| **Live Badge Hits** | `52` | Public visual hits via `hits.sh` web beacon |
+| **Live Badge Hits** | `56` | Public visual hits via `hits.sh` web beacon |
 | **Total Page Views** | `0` | Cumulative page views tracked via GitHub API |
 | **Total Git Clones** | `0` | Cumulative repository clones via CLI |
 | **Stargazers** | `0` | Total GitHub stars |
@@ -19,11 +19,16 @@
 
 ---
 
-## Daily Traffic Log
+## Daily Traffic & Web Beacon Activity
 
-| Date | Views (Total) | Views (Unique) | Clones (Total) | Clones (Unique) |
+| Date | Web Beacon Hits | GitHub Views (Total) | GitHub Views (Unique) | Git Clones |
 | :---: | :---: | :---: | :---: | :---: |
-| 2026-09-27 | 0 | 0 | 0 | 0 |
+| `2026-09-28` | 2 | - | - | - |
+| `2026-09-27` | 5 | - | - | - |
+| `2026-09-26` | 8 | - | - | - |
+| `2026-09-25` | 5 | - | - | - |
+| `2026-09-24` | 13 | - | - | - |
+| `2026-09-23` | 11 | - | - | - |
 
 ---
 
@@ -31,8 +36,13 @@
 
 | Referrer | Views (Total) | Visitors (Unique) |
 | :--- | :---: | :---: |
-| *No external referrers recorded yet* | 0 | 0 |
+| *No external referrers recorded yet (requires TRAFFIC_TOKEN)* | 0 | 0 |
 
 ---
+
+> [!NOTE]
+> **Telemetry Ingestion Sources:**  
+> • **Web Beacon Hits (`hits.sh`):** Real-time visitor requests recorded directly when the repository README badge is rendered. Active and updated continuously.  
+> • **GitHub Traffic API (`/traffic/views`, `/traffic/clones`):** Internal GitHub web traffic and CLI clone counts. Ingestion via GitHub Actions requires repository secret `TRAFFIC_TOKEN` (PAT with `repo` scope) to bypass default CI token restrictions.
 
 *Maintained by Autonomous Telemetry & Observability Engine.*
