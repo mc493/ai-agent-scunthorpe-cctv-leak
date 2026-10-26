@@ -1,8 +1,9 @@
 # How a "Biotechnology" Link Made a System AI Agent Leak Home CCTV Logs
 *A Postmortem on Lexical Collisions, System-Level Agent Authorization, and the 2026 Scunthorpe Problem*
 
-[![Release](https://img.shields.io/github/v/release/mc493/ai-agent-scunthorpe-cctv-leak?color=blue&label=Release)](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak/releases/latest)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak/actions/workflows/ci.yml/badge.svg)](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak/actions)
+[![Release](https://img.shields.io/github/v/tag/mc493/ai-agent-scunthorpe-cctv-leak?color=blue&label=Release)](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Engineered With: Antigravity CLI](https://img.shields.io/badge/Engineered%20With-Antigravity%20CLI%20(agy)-black?style=flat-square)](https://github.com/)
 [![Views](https://hits.sh/github.com/mc493/ai-agent-scunthorpe-cctv-leak.svg?style=flat-square&label=views&extraCount=12)](traffic/SUMMARY.md)
