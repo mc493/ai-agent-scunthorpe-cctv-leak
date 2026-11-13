@@ -1,7 +1,7 @@
 # 360° Repository Traffic & Telemetry History
 
 > **Repository:** [`mc493/ai-agent-scunthorpe-cctv-leak`](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak)  
-> **Last Updated:** `2026-11-12T05:52:03.513722+00:00` (UTC)  
+> **Last Updated:** `2026-11-13T20:02:07.298977+00:00` (UTC)  
 > **Archival Engine:** Automated Continuous Time-Series Ledger (Defeats GitHub 14-Day Cliff)
 
 ---
@@ -10,9 +10,9 @@
 
 | Metric | Total / Status | Description |
 | :--- | :---: | :--- |
-| **Live Badge Hits** | `102` | Public visual hits via `hits.sh` web beacon |
-| **Total Page Views** | `0` | Cumulative page views tracked via GitHub API |
-| **Total Git Clones** | `0` | Cumulative repository clones via CLI |
+| **Live Badge Hits** | `18` | Public visual hits via `hits.sh` web beacon |
+| **Total Page Views** | `36` | Cumulative page views tracked via GitHub API |
+| **Total Git Clones** | `190` | Cumulative repository clones via CLI |
 | **Stargazers** | `0` | Total GitHub stars |
 | **Forks** | `0` | Total repository forks |
 | **Watchers** | `0` | Total subscribers |
@@ -23,14 +23,20 @@
 
 | Date | Web Beacon Hits | GitHub Views (Total) | GitHub Views (Unique) | Git Clones |
 | :---: | :---: | :---: | :---: | :---: |
-| `2026-11-11` | 1 | - | - | - |
-| `2026-11-09` | 1 | - | - | - |
-| `2026-11-05` | 1 | - | - | - |
-| `2026-11-03` | 3 | - | - | - |
-| `2026-11-02` | 2 | - | - | - |
-| `2026-11-01` | 1 | - | - | - |
-| `2026-10-31` | 1 | - | - | - |
-| `2026-10-30` | 1 | - | - | - |
+| `2026-11-12` | - | 14 | 1 | 4 |
+| `2026-11-11` | 1 | 0 | 0 | 19 |
+| `2026-11-10` | - | 2 | 1 | 5 |
+| `2026-11-09` | 1 | 0 | 0 | 18 |
+| `2026-11-08` | - | 1 | 1 | 40 |
+| `2026-11-07` | - | 0 | 0 | 6 |
+| `2026-11-06` | - | 0 | 0 | 6 |
+| `2026-11-05` | 1 | 3 | 1 | 20 |
+| `2026-11-04` | - | 0 | 0 | 7 |
+| `2026-11-03` | 3 | 2 | 1 | 22 |
+| `2026-11-02` | 2 | 6 | 1 | 7 |
+| `2026-11-01` | 1 | 3 | 1 | 17 |
+| `2026-10-31` | 1 | 1 | 1 | 6 |
+| `2026-10-30` | 1 | 4 | 1 | 13 |
 | `2026-10-28` | 2 | - | - | - |
 | `2026-10-27` | 1 | - | - | - |
 | `2026-10-26` | 3 | - | - | - |
@@ -60,7 +66,7 @@
 
 | Referrer | Views (Total) | Visitors (Unique) |
 | :--- | :---: | :---: |
-| *No external referrers recorded yet (requires TRAFFIC_TOKEN)* | 0 | 0 |
+| **github.com** | 13 | 2 |
 
 ---
 
