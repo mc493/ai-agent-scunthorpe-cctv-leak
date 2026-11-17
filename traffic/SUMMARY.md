@@ -1,7 +1,7 @@
 # 360° Repository Traffic & Telemetry History
 
 > **Repository:** [`mc493/ai-agent-scunthorpe-cctv-leak`](https://github.com/mc493/ai-agent-scunthorpe-cctv-leak)  
-> **Last Updated:** `2026-11-16T19:15:43.870992+00:00` (UTC)  
+> **Last Updated:** `2026-11-17T06:40:53.949042+00:00` (UTC)  
 > **Archival Engine:** Automated Continuous Time-Series Ledger (Defeats GitHub 14-Day Cliff)
 
 ---
@@ -10,9 +10,9 @@
 
 | Metric | Total / Status | Description |
 | :--- | :---: | :--- |
-| **Live Badge Hits** | `112` | Public visual hits via `hits.sh` web beacon |
-| **Total Page Views** | `45` | Cumulative page views tracked via GitHub API |
-| **Total Git Clones** | `221` | Cumulative repository clones via CLI |
+| **Live Badge Hits** | `113` | Public visual hits via `hits.sh` web beacon |
+| **Total Page Views** | `46` | Cumulative page views tracked via GitHub API |
+| **Total Git Clones** | `252` | Cumulative repository clones via CLI |
 | **Stargazers** | `0` | Total GitHub stars |
 | **Forks** | `0` | Total repository forks |
 | **Watchers** | `0` | Total subscribers |
@@ -23,7 +23,9 @@
 
 | Date | Web Beacon Hits | GitHub Views (Total) | GitHub Views (Unique) | Git Clones |
 | :---: | :---: | :---: | :---: | :---: |
-| `2026-11-15` | 2 | - | - | - |
+| `2026-11-17` | 1 | - | - | - |
+| `2026-11-16` | - | 1 | 1 | 27 |
+| `2026-11-15` | 2 | 0 | 0 | 4 |
 | `2026-11-14` | - | 4 | 1 | 10 |
 | `2026-11-13` | 8 | 5 | 1 | 21 |
 | `2026-11-12` | - | 14 | 1 | 4 |
@@ -69,7 +71,7 @@
 
 | Referrer | Views (Total) | Visitors (Unique) |
 | :--- | :---: | :---: |
-| **github.com** | 13 | 1 |
+| **github.com** | 12 | 1 |
 
 ---
 
