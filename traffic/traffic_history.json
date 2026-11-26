@@ -136,6 +136,10 @@
     "2026-11-23": {
       "count": 15,
       "uniques": 9
+    },
+    "2026-11-24": {
+      "count": 16,
+      "uniques": 10
     }
   },
   "daily_views": {
@@ -238,15 +242,19 @@
     "2026-11-23": {
       "count": 0,
       "uniques": 0
+    },
+    "2026-11-24": {
+      "count": 0,
+      "uniques": 0
     }
   },
   "first_recorded": "2026-09-23T14:03:02.551129+00:00",
   "forks": 0,
-  "last_updated": "2026-11-25T07:06:31.387746+00:00",
+  "last_updated": "2026-11-26T06:57:22.631671+00:00",
   "open_issues": 0,
   "referrers": {
     "github.com": {
-      "count": 10,
+      "count": 9,
       "uniques": 1
     }
   },
